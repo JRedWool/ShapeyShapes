@@ -1,18 +1,17 @@
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseMotionAdapter;
-import java.awt.event.MouseMotionListener;
+import java.awt.event.*;
 import java.awt.image.BufferedImage;
+import java.security.Key;
+import java.awt.event.KeyListener;
+import java.awt.event.KeyEvent;
 
+public class Game extends JFrame implements KeyListener{
 
-public class Game extends JFrame{
     Board board;
     boolean mouseClicked = false;
     long moment;
-    int positionX, positionY;
-
+    boolean enterPressed, upPressed, downPressed, leftPressed, rightPressed;
 
 
     public Game(){
@@ -20,13 +19,9 @@ public class Game extends JFrame{
         setTitle("Don't Starve Alone");
         setVisible(true);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setResizable(false);
-
 
         board = new Board(this);
-
         add(board);
-
         addMouseListener(new MouseAdapter() {
             @Override
             public void mouseEntered(MouseEvent e) {
@@ -35,8 +30,7 @@ public class Game extends JFrame{
             }
         });
 
-
-
+        /*
         addMouseMotionListener(new MouseMotionAdapter() {
             @Override
             public void mouseMoved(MouseEvent e) {
@@ -45,6 +39,8 @@ public class Game extends JFrame{
                 positionY = e.getY();
             }
         });
+            */
+
 
         addMouseListener(new MouseAdapter() {
             @Override
@@ -56,19 +52,13 @@ public class Game extends JFrame{
             }
         });
 
-
+        addKeyListener(this);
         pack();
+        setResizable(false);
         board.setup();
         setLocationRelativeTo(null);
     }
 
-    public int getPositionX() {
-        return positionX;
-    }
-
-    public int getPositionY() {
-        return positionY;
-    }
 
     public boolean isMouseClicked() {return mouseClicked;}
 
@@ -86,7 +76,77 @@ public class Game extends JFrame{
 
     }
 
+    @Override
+    public void keyTyped(KeyEvent e) {
+
+    }
+
+    @Override
+    public void keyPressed(KeyEvent e){
 
 
+        if(e.getKeyCode() == KeyEvent.VK_RIGHT){
+            rightPressed = true;
+        }
+        if(e.getKeyCode() == KeyEvent.VK_LEFT){
+            leftPressed = true;
+        }
+        if(e.getKeyCode() == KeyEvent.VK_UP){
+            upPressed = true;
+            System.out.println("Phase 1");
+        }
+        if(e.getKeyCode() == KeyEvent.VK_DOWN){
+            downPressed = true;
+        }
 
+        if(e.getKeyCode() == KeyEvent.VK_ENTER){
+            enterPressed = true;
+        }
+
+    }
+
+
+    @Override
+    public void keyReleased(KeyEvent e){
+
+
+        if(e.getKeyCode() == KeyEvent.VK_RIGHT){
+            rightPressed = false;
+        }
+        if(e.getKeyCode() == KeyEvent.VK_LEFT){
+            leftPressed = false;
+        }
+        if(e.getKeyCode() == KeyEvent.VK_UP){
+            upPressed = false;
+            System.out.println("Phase 2");
+        }
+        if(e.getKeyCode() == KeyEvent.VK_DOWN){
+            downPressed = false;
+        }
+
+        if(e.getKeyCode() == KeyEvent.VK_ENTER){
+            enterPressed = false;
+        }
+
+    }
+
+    public boolean isEnterPressed() {
+        return enterPressed;
+    }
+
+    public boolean isUpPressed() {
+        return upPressed;
+    }
+
+    public boolean isDownPressed() {
+        return downPressed;
+    }
+
+    public boolean isLeftPressed() {
+        return leftPressed;
+    }
+
+    public boolean isRightPressed() {
+        return rightPressed;
+    }
 }

@@ -8,11 +8,11 @@ public abstract class Sprite {
     int x, y, width, height;
     double dx, dy;
     boolean remove = false;
+    int foodPhase;
 
 
-
-    public Sprite(Color color, int x, int y, int width, int height, Board board) {
-
+    public Sprite(Color color, int x, int y, int width, int height, Board board, int phase) {
+        this.foodPhase = phase;
         this.color = color;
         this.width = width;
         this.height = height;
@@ -30,6 +30,19 @@ public abstract class Sprite {
 
     }
 
+    public void kill(){
+        foodPhase-=1;
+    }
+
+
+    public int getPhase(){
+        return foodPhase;
+    }
+
+
+
+
+
     public void move(){
 
         //Predictive Movement
@@ -45,6 +58,15 @@ public abstract class Sprite {
         if(nextLeft < 0 || nextRight > (double)board.getWidth()){
             dx *= -1;
         }
+
+        if(this instanceof Enemy && (nextLeft <  600)){
+            dx *= -1;
+        }
+
+        if(this instanceof Food && (nextRight > 600)){
+            dx*=-1;
+        }
+
 
         x+=dx;
         y+=dy;
